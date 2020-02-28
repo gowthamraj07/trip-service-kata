@@ -13,20 +13,20 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class TripServiceTest {
 
     public static final User INVALID_USER = null;
-    public static final User GUEST = new User();
+    public static final User STRANGER = new User();
     private static final User LOGGED_IN_USER = new User();
     private static final User FRIEND = new User();
 
     @Test
     void should_throw_exception_when_user_not_logged_in() {
         assertThrows(UserNotLoggedInException.class,()->{
-            new TestableTripService(INVALID_USER).getTripsByUser(GUEST);
+            new TestableTripService(INVALID_USER).getTripsByUser(STRANGER);
         });
     }
 
     @Test
     void should_not_return_trips_when_GUEST_logged_in() {
-        List<Trip> trips = new TestableTripService(LOGGED_IN_USER).getTripsByUser(GUEST);
+        List<Trip> trips = new TestableTripService(LOGGED_IN_USER).getTripsByUser(STRANGER);
 
         assertEquals(0,trips.size());
     }
