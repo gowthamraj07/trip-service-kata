@@ -16,12 +16,16 @@ public class TripService {
             throw new UserNotLoggedInException();
         }
 
-        if (!user.isFriend(loggedUser)) {
+        if (areTheyStrangers(user, loggedUser)) {
             return emptyList();
         }
 
         return findTripsByUser(user);
 
+    }
+
+    private boolean areTheyStrangers(User user, User loggedUser) {
+        return !user.isFriend(loggedUser);
     }
 
     protected List<Trip> findTripsByUser(User user) {
