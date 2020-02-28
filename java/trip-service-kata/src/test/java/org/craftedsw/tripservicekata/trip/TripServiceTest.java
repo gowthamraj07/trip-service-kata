@@ -43,5 +43,4 @@ public class TripServiceTest {
 
         assertEquals(expectedTrips,actualTrips);
     }
-
 }

@@ -28,16 +28,10 @@ public class TripService {
             return emptyList();
         }
 
-        return findTripsByUser(user);
-
+        return tripDAO.findTripsBy(user);
     }
 
     private boolean areTheyStrangers(User user, User loggedUser) {
         return !user.isFriend(loggedUser);
     }
-
-    protected List<Trip> findTripsByUser(User user) {
-        return tripDAO.findTripsBy(user);
-    }
-
 }
