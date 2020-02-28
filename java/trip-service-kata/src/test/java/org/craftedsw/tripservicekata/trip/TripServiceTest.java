@@ -20,13 +20,13 @@ public class TripServiceTest {
     @Test
     void should_throw_exception_when_user_not_logged_in() {
         assertThrows(UserNotLoggedInException.class,()->{
-            new TestableTripService(INVALID_USER).getTripsByUser(STRANGER);
+            new TestableTripService().getTripsByUser(STRANGER, INVALID_USER);
         });
     }
 
     @Test
     void should_not_return_trips_when_GUEST_logged_in() {
-        List<Trip> trips = new TestableTripService(LOGGED_IN_USER).getTripsByUser(STRANGER);
+        List<Trip> trips = new TestableTripService().getTripsByUser(STRANGER, LOGGED_IN_USER);
 
         assertEquals(0,trips.size());
     }
@@ -36,27 +36,19 @@ public class TripServiceTest {
         List<Trip> expectedTrips = Collections.singletonList(new Trip());
         FRIEND.addFriend(LOGGED_IN_USER);
 
-        List<Trip> actualTrips = new TestableTripService(LOGGED_IN_USER,expectedTrips).getTripsByUser(FRIEND);
+        List<Trip> actualTrips = new TestableTripService(expectedTrips).getTripsByUser(FRIEND, LOGGED_IN_USER);
 
         assertEquals(expectedTrips,actualTrips);
     }
 
     private class TestableTripService extends TripService {
-        User invalidUser;
         private List<Trip> trips;
 
-        private TestableTripService(User invalidUser) {
-            this.invalidUser = invalidUser;
+        private TestableTripService() {
         }
 
-        public TestableTripService(User invalidUser, List<Trip> trips) {
-            this.invalidUser = invalidUser;
+        public TestableTripService(List<Trip> trips) {
             this.trips = trips;
-        }
-
-        @Override
-        protected User getLoggedUser() {
-            return invalidUser;
         }
 
         @Override
